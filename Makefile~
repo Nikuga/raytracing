@@ -47,6 +47,5 @@ clean:
 
 plot: $(EXEC) 
 	./raytracing 
-	gprof -b ./raytracing gmon.out > result.txt
 	gprof ./raytracing | ./gprof2dot.py | dot -Tpng -o result.png
 	
