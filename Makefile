@@ -7,14 +7,16 @@ PROFILE?=1
 CC ?= gcc
 CFLAGS = \
 	-mavx -std=gnu99 -Wall -O0 -g \
-	-D__forceinline="__attribute__((always_inline))"
+	-D__forceinline="__attribute__((always_inline))" \
+	-fopenmp
 LDFLAGS = \
-	-lm
+	-lm \
+	-fopenmp
 
 ifeq ($(strip $(PROFILE)),1)
 PROF_FLAGS = -pg
 CFLAGS += $(PROF_FLAGS)
-LDFLAGS += $(PROF_FLAGS) 
+LDFLAGS += $(PROF_FLAGS)
 endif
 
 OBJS := \
