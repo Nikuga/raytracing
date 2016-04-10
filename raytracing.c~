@@ -5,6 +5,7 @@
 #include "primitives.h"
 #include "raytracing.h"
 #include "idx_stack.h"
+#include <pthread.h>
 
 #define MAX_REFLECTION_BOUNCES	3
 #define MAX_DISTANCE 1000000000000.0
@@ -458,21 +459,30 @@ void raytracing(uint8_t *pixels, color background_color,
                 light_node lights, const viewpoint *view,
                 int width, int height)
 {
+    raypara_struct raypara = {
+        .pixels = pixels,
+        .background_color = background_color,
+        .rectangulars = rectangulars,
+        .spheres = spheres,
+        .lights = lights,
+        .view = view,
+        .width = width,
+        .height = height,
+    };
+    ray_thread((void *)(&raypara));
+    /*
     point3 u, v, w, d;
     color object_color = { 0.0, 0.0, 0.0 };
 
-    /* calculate u, v, w */
+    / calculate u, v, w /
     calculateBasisVectors(u, v, w, view);
 
-    idx_stack stk;
-
+    idx_stack stk;   
     int factor = sqrt(SAMPLES);
-    #pragma omp parallel for collapse(2) num_threads(4) \
-                private(stk), private(d), private(object_color)
     for (int j = 0; j < height; j++) {
         for (int i = 0; i < width; i++) {
             double r = 0, g = 0, b = 0;
-            /* MSAA */
+            / MSAA /
             for (int s = 0; s < SAMPLES; s++) {
                 idx_stack_init(&stk);
                 rayConstruction(d, u, v, w,
@@ -497,4 +507,69 @@ void raytracing(uint8_t *pixels, color background_color,
             }
         }
     }
+    */
+}
+/*
+raypara_struct *ray_setpara(uint8_t *pixels, double* background_color,
+                            rectangular_node rectangulars, sphere_node spheres,
+                            light_node lights, const viewpoint *view,
+                            int width, int height, int thread_index, int thread_num)*/
+void ray_setpara(raypara_struct *raypara,
+                 uint8_t *pixels, double* background_color,
+                 rectangular_node rectangulars, sphere_node spheres,
+                 light_node lights, const viewpoint *view,
+                 int width, int height, int thread_index, int thread_num)                            
+{
+    raypara->pixels = pixels;
+    raypara->background_color = background_color;
+    raypara->rectangulars = rectangulars;
+    raypara->spheres = spheres;
+    raypara->lights = lights;
+    raypara->view = view;
+    raypara->width = width;
+    raypara->height = height;
+    raypara->thread_index = thread_index;
+    raypara->thread_num = thread_num;
+}
+
+void ray_thread(void *ptr_raypara)
+{    
+    raypara_struct *raypara = (raypara_struct *)ptr_raypara;
+    point3 u, v, w, d;
+    color object_color = { 0.0, 0.0, 0.0 };
+
+    /* calculate u, v, w */
+    calculateBasisVectors(u, v, w, raypara->view);
+
+    idx_stack stk;   
+    int factor = sqrt(SAMPLES);
+    for (int j = raypara->thread_index; j < raypara->height; j=j+raypara->thread_num) {
+        for (int i = 0; i < raypara->width; i++) {
+            double r = 0, g = 0, b = 0;
+            /* MSAA */
+            for (int s = 0; s < SAMPLES; s++) {
+                idx_stack_init(&stk);
+                rayConstruction(d, u, v, w,
+                                i * factor + s / factor,
+                                j * factor + s % factor,
+                                raypara->view,
+                                raypara->width * factor, raypara->height * factor);
+                if (ray_color(raypara->view->vrp, 0.0, d, &stk, raypara->rectangulars, raypara->spheres,
+                              raypara->lights, object_color,
+                              MAX_REFLECTION_BOUNCES)) {
+                    r += object_color[0];
+                    g += object_color[1];
+                    b += object_color[2];
+                } else {
+                    r += raypara->background_color[0];
+                    g += raypara->background_color[1];
+                    b += raypara->background_color[2];
+                }
+                raypara->pixels[((i + (j * raypara->width)) * 3) + 0] = r * 255 / SAMPLES;
+                raypara->pixels[((i + (j * raypara->width)) * 3) + 1] = g * 255 / SAMPLES;
+                raypara->pixels[((i + (j * raypara->width)) * 3) + 2] = b * 255 / SAMPLES;
+            }
+        }
+    }
+    //pthread_exit(0);
 }

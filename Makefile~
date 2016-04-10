@@ -6,11 +6,12 @@ PROFILE?=1
 
 CC ?= gcc
 CFLAGS = \
-	-mavx -std=gnu99 -Wall -O0 -g \
+	-mavx -std=gnu99 -Wall -Ofast -g \
 	-D__forceinline="__attribute__((always_inline))" \
-	-fopenmp
+	-lpthread
 LDFLAGS = \
-	-lm
+	-lm  \
+	-lpthread
 
 ifeq ($(strip $(PROFILE)),1)
 PROF_FLAGS = -pg

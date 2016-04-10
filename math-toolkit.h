@@ -41,7 +41,17 @@ void subtract_vector(const double *a, const double *b, double *out)
     out[0] = a[0] - b[0];
     out[1] = a[1] - b[1];
     out[2] = a[2] - b[2];
-   
+
+    /*
+    double tmp[4] __attribute__((aligned(32)));
+    __m256d x = _mm256_set_pd(0.0, a[2], a[1], a[0]);
+    __m256d y = _mm256_set_pd(0.0, b[2], b[1], b[0]);
+    __m256d xy = _mm256_sub_pd(x,y);
+    _mm256_store_pd(tmp, xy);
+    out[0] = tmp[0];
+    out[1] = tmp[1];
+    out[2] = tmp[2];
+    */
 }
 
 static inline __forceinline
@@ -71,6 +81,21 @@ void cross_product(const double *v1, const double *v2, double *out)
     out[0] = v1[1] * v2[2] - v1[2] * v2[1];
     out[1] = v1[2] * v2[0] - v1[0] * v2[2];
     out[2] = v1[0] * v2[1] - v1[1] * v2[0];
+    /*
+    __m256i mask = _mm256_set_epi64x(0x0000000000000000, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff);
+    __m256d x = _mm256_set_pd(0.0, v1[0], v1[2], v1[1]);
+    __m256d y1 = _mm256_set_pd(0.0, v2[1], v2[0], v2[2]);
+    __m256d y2 = _mm256_set_pd(0.0, v2[2], v2[1], v2[0]);
+    __m256d xy1 = _mm256_mul_pd(x, y1);           // (      0.0, a[0]*b[1], a[2]*b[0], a[1]*b[2]);
+    __m256d xy2 = _mm256_mul_pd(x, y2);                  // (0.0, a[0]*b[2], a[2]*b[1], a[1]*b[0]);
+    __m256d xy3 = _mm256_permute_pd(xy2, 0x09);   // (      0.0, a[0]*b[2], a[1]*b[0], a[2]*b[1]);
+    xy2 = _mm256_permute2f128_pd(xy2, xy2, 0x01);           // (a[2]*b[1], a[1]*b[0],       0.0, a[0]*b[2]);
+    xy2 = _mm256_permute_pd(xy2, 0x09);           // (a[2]*b[1], a[1]*b[0], a[0]*b[2],       0.0);
+    xy2 = _mm256_shuffle_pd(xy3, xy2, 0x06);      // (a[1]*b[0],       0.0, a[0]*b[2], a[2]*b[1]);  
+    xy2 = _mm256_permute_pd(xy2, 0x06);           // (      0.0, a[1]*b[0], a[0]*b[2], a[2]*b[1]);  
+    __m256d xyc = _mm256_sub_pd(xy1, xy2); 
+    _mm256_maskstore_pd(out, mask, xyc);
+    */
 }
 
 static inline __forceinline
@@ -84,46 +109,15 @@ double dot_product(const double *v1, const double *v2)
     dp += v1[2] * v2[2];
 	return dp;
 	
-	/*
-	// method 1
-	__m256d x = _mm256_set_pd( v1[0], v1[1], v1[2], 0.0);
-	__m256d y = _mm256_set_pd( v2[0], v2[1], v2[2], 0.0);
+    /*
+    //method 2
+    double tmp[4] __attribute__((aligned(32)));
+    __m256d x = _mm256_set_pd( v1[0], v1[1], v1[2], 0.0);
+    __m256d y = _mm256_set_pd( v2[0], v2[1], v2[2], 0.0);
     __m256d xy = _mm256_mul_pd(x, y);
-    __m256d temp = _mm256_hadd_pd(xy, xy);
-    __m128d hi128 = _mm256_extractf128_pd(temp, 1);
-    __m128d low128 = _mm256_extractf128_pd(temp, 0);
-    __m128d dotproduct = _mm_add_pd(low128, hi128);
-	double dp = _mm_cvtsd_f64(dotproduct);
-	return dp;
-	*/
-	
-	/*
-	//method 2
-	double tmp[4] __attribute__((aligned(32)));
-	__m256d x = _mm256_set_pd( v1[0], v1[1], v1[2], 0.0);
-	__m256d y = _mm256_set_pd( v2[0], v2[1], v2[2], 0.0);
-    __m256d xy = _mm256_mul_pd(x, y);
-    _mm256_store_pd(tmp, xy);
-    //dp = tmp[0] + tmp[1] + tmp[2] + tmp[3];
-	
+    _mm256_store_pd(tmp, xy);	
     return (tmp[0] + tmp[1] + tmp[2] + tmp[3]);
-	*/
-	
-	/*
-	//method 3
-	double tmp[4] __attribute__((aligned(32)));
-	__m256d x = _mm256_set_pd( v1[0], v1[1], v1[2], 0.0);
-	__m256d y = _mm256_set_pd( v2[0], v2[1], v2[2], 0.0);
-    __m256d xy = _mm256_mul_pd(x, y);	
-	__m256d lvTemp1 = _mm256_permute_pd(xy,5);
-	__m256d lvTemp2 = _mm256_permute2f128_pd(lvTemp1,lvTemp1,1);
-	lvTemp2 = _mm256_permute_pd(lvTemp2,5);
-	__m256d sum = _mm256_add_pd(xy,_mm256_add_pd(lvTemp1, lvTemp2)); 
-    _mm256_store_pd(tmp, sum);
-	
-    return (tmp[3]);
-	*/
-	
+    */
 }
 
 static inline __forceinline

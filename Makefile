@@ -8,10 +8,10 @@ CC ?= gcc
 CFLAGS = \
 	-mavx -std=gnu99 -Wall -O0 -g \
 	-D__forceinline="__attribute__((always_inline))" \
-	-fopenmp
+	-lpthread
 LDFLAGS = \
-	-lm \
-	-fopenmp
+	-lm  \
+	-lpthread
 
 ifeq ($(strip $(PROFILE)),1)
 PROF_FLAGS = -pg

@@ -58,6 +58,8 @@ int main()
     /*
     raytracing(pixels, background,
                rectangulars, spheres, lights, &view, ROWS, COLS);
+    pthread_t *thread_id = (pthread_t *)malloc(thread_num*sizeof(pthread_t));
+    raypara_struct** rayparas = (raypara_struct **)malloc(thread_num*sizeof(raypara_struct*));
     */
     pthread_t *thread_id = (pthread_t *)malloc(thread_num*sizeof(pthread_t));
     raypara_struct** rayparas = (raypara_struct **)malloc(thread_num*sizeof(raypara_struct*));

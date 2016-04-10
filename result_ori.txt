@@ -1,0 +1,264 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 15.73      0.25     0.25 10598450     0.00     0.00  normalize
+ 13.84      0.47     0.22 13861875     0.00     0.00  rayRectangularIntersection
+ 11.01      0.65     0.18 69646433     0.00     0.00  dot_product
+ 10.70      0.82     0.17 56956357     0.00     0.00  subtract_vector
+  7.55      0.94     0.12 17821809     0.00     0.00  cross_product
+  6.92      1.05     0.11 13861875     0.00     0.00  raySphereIntersection
+  6.29      1.15     0.10 31410180     0.00     0.00  multiply_vector
+  5.66      1.24     0.09  1048576     0.00     0.00  ray_color
+  5.03      1.32     0.08  4620625     0.00     0.00  ray_hit_object
+  4.41      1.39     0.07 17836094     0.00     0.00  add_vector
+  3.15      1.44     0.05  4221152     0.00     0.00  multiply_vectors
+  3.15      1.49     0.05  2110576     0.00     0.00  compute_specular_diffuse
+  1.89      1.52     0.03  2520791     0.00     0.00  idx_stack_top
+  1.89      1.55     0.03  1048576     0.00     0.00  rayConstruction
+  1.26      1.57     0.02  2110576     0.00     0.00  localColor
+  0.63      1.58     0.01  2558386     0.00     0.00  idx_stack_empty
+  0.63      1.59     0.01  1241598     0.00     0.00  protect_color_overflow
+  0.31      1.59     0.01  3838091     0.00     0.00  length
+  0.00      1.59     0.00  1241598     0.00     0.00  reflection
+  0.00      1.59     0.00  1241598     0.00     0.00  refraction
+  0.00      1.59     0.00  1204003     0.00     0.00  idx_stack_push
+  0.00      1.59     0.00  1048576     0.00     0.00  idx_stack_init
+  0.00      1.59     0.00   113297     0.00     0.00  fresnel
+  0.00      1.59     0.00    37595     0.00     0.00  idx_stack_pop
+  0.00      1.59     0.00        3     0.00     0.00  append_rectangular
+  0.00      1.59     0.00        3     0.00     0.00  append_sphere
+  0.00      1.59     0.00        2     0.00     0.00  append_light
+  0.00      1.59     0.00        1     0.00     0.00  calculateBasisVectors
+  0.00      1.59     0.00        1     0.00     0.00  delete_light_list
+  0.00      1.59     0.00        1     0.00     0.00  delete_rectangular_list
+  0.00      1.59     0.00        1     0.00     0.00  delete_sphere_list
+  0.00      1.59     0.00        1     0.00     0.00  diff_in_second
+  0.00      1.59     0.00        1     0.00     1.59  raytracing
+  0.00      1.59     0.00        1     0.00     0.00  write_to_ppm
+
+			Call graph
+
+
+granularity: each sample hit covers 2 byte(s) for 0.63% of 1.59 seconds
+
+index % time    self  children    called     name
+                0.00    1.59       1/1           main [2]
+[1]    100.0    0.00    1.59       1         raytracing [1]
+                0.09    1.42 1048576/1048576     ray_color [3]
+                0.03    0.05 1048576/1048576     rayConstruction [14]
+                0.00    0.00       1/1           calculateBasisVectors [25]
+                0.00    0.00 1048576/1048576     idx_stack_init [27]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]    100.0    0.00    1.59                 main [2]
+                0.00    1.59       1/1           raytracing [1]
+                0.00    0.00       3/3           append_sphere [29]
+                0.00    0.00       3/3           append_rectangular [28]
+                0.00    0.00       2/2           append_light [30]
+                0.00    0.00       1/1           write_to_ppm [35]
+                0.00    0.00       1/1           delete_rectangular_list [32]
+                0.00    0.00       1/1           delete_sphere_list [33]
+                0.00    0.00       1/1           delete_light_list [31]
+                0.00    0.00       1/1           diff_in_second [34]
+-----------------------------------------------
+                             1354679             ray_color [3]
+                0.09    1.42 1048576/1048576     raytracing [1]
+[3]     95.0    0.09    1.42 1048576+1354679 ray_color [3]
+                0.08    0.81 4620625/4620625     ray_hit_object [4]
+                0.05    0.21 2110576/2110576     compute_specular_diffuse [6]
+                0.02    0.10 2110576/2110576     localColor [11]
+                0.06    0.00 2596277/10598450     normalize [7]
+                0.03    0.01 2520791/2520791     idx_stack_top [17]
+                0.00    0.01 1241598/1241598     reflection [18]
+                0.01    0.00 3169934/31410180     multiply_vector [13]
+                0.01    0.00 1241598/1241598     protect_color_overflow [20]
+                0.01    0.00 2483196/56956357     subtract_vector [10]
+                0.00    0.00 3724794/3838091     length [21]
+                0.00    0.00 1241598/1241598     refraction [22]
+                0.00    0.00  686738/17836094     add_vector [15]
+                0.00    0.00  113297/113297      fresnel [23]
+                0.00    0.00   37595/37595       idx_stack_pop [24]
+                0.00    0.00 1204003/1204003     idx_stack_push [26]
+                             1354679             ray_color [3]
+-----------------------------------------------
+                0.08    0.81 4620625/4620625     ray_color [3]
+[4]     55.8    0.08    0.81 4620625         ray_hit_object [4]
+                0.22    0.31 13861875/13861875     rayRectangularIntersection [5]
+                0.11    0.13 13861875/13861875     raySphereIntersection [8]
+                0.02    0.00 4620625/17836094     add_vector [15]
+                0.01    0.00 4620625/31410180     multiply_vector [13]
+-----------------------------------------------
+                0.22    0.31 13861875/13861875     ray_hit_object [4]
+[5]     33.3    0.22    0.31 13861875         rayRectangularIntersection [5]
+                0.12    0.00 17821807/17821809     cross_product [12]
+                0.11    0.00 36717187/56956357     subtract_vector [10]
+                0.07    0.00 28627374/69646433     dot_product [9]
+                0.00    0.00 1187811/17836094     add_vector [15]
+                0.00    0.00 1187811/31410180     multiply_vector [13]
+-----------------------------------------------
+                0.05    0.21 2110576/2110576     ray_color [3]
+[6]     16.2    0.05    0.21 2110576         compute_specular_diffuse [6]
+                0.15    0.00 6331728/10598450     normalize [7]
+                0.03    0.00 8442304/31410180     multiply_vector [13]
+                0.03    0.00 9964085/69646433     dot_product [9]
+                0.01    0.00 2110576/56956357     subtract_vector [10]
+-----------------------------------------------
+                0.00    0.00       3/10598450     calculateBasisVectors [25]
+                0.01    0.00  621866/10598450     raySphereIntersection [8]
+                0.02    0.00 1048576/10598450     rayConstruction [14]
+                0.06    0.00 2596277/10598450     ray_color [3]
+                0.15    0.00 6331728/10598450     compute_specular_diffuse [6]
+[7]     15.7    0.25    0.00 10598450         normalize [7]
+-----------------------------------------------
+                0.11    0.13 13861875/13861875     ray_hit_object [4]
+[8]     15.4    0.11    0.13 13861875         raySphereIntersection [8]
+                0.07    0.00 28345616/69646433     dot_product [9]
+                0.04    0.00 14483741/56956357     subtract_vector [10]
+                0.01    0.00  621866/10598450     normalize [7]
+                0.00    0.00  933714/31410180     multiply_vector [13]
+                0.00    0.00  621866/17836094     add_vector [15]
+-----------------------------------------------
+                0.00    0.00  226162/69646433     fresnel [23]
+                0.00    0.00 1241598/69646433     reflection [18]
+                0.00    0.00 1241598/69646433     refraction [22]
+                0.03    0.00 9964085/69646433     compute_specular_diffuse [6]
+                0.07    0.00 28345616/69646433     raySphereIntersection [8]
+                0.07    0.00 28627374/69646433     rayRectangularIntersection [5]
+[9]     11.0    0.18    0.00 69646433         dot_product [9]
+-----------------------------------------------
+                0.00    0.00  113081/56956357     refraction [22]
+                0.00    0.00 1048576/56956357     rayConstruction [14]
+                0.01    0.00 2110576/56956357     compute_specular_diffuse [6]
+                0.01    0.00 2483196/56956357     ray_color [3]
+                0.04    0.00 14483741/56956357     raySphereIntersection [8]
+                0.11    0.00 36717187/56956357     rayRectangularIntersection [5]
+[10]    10.7    0.17    0.00 56956357         subtract_vector [10]
+-----------------------------------------------
+                0.02    0.10 2110576/2110576     ray_color [3]
+[11]     7.7    0.02    0.10 2110576         localColor [11]
+                0.05    0.00 4221152/4221152     multiply_vectors [16]
+                0.03    0.00 8442304/31410180     multiply_vector [13]
+                0.02    0.00 6331728/17836094     add_vector [15]
+-----------------------------------------------
+                0.00    0.00       2/17821809     calculateBasisVectors [25]
+                0.12    0.00 17821807/17821809     rayRectangularIntersection [5]
+[12]     7.5    0.12    0.00 17821809         cross_product [12]
+-----------------------------------------------
+                0.00    0.00  226162/31410180     refraction [22]
+                0.00    0.00  933714/31410180     raySphereIntersection [8]
+                0.00    0.00 1187811/31410180     rayRectangularIntersection [5]
+                0.00    0.00 1241598/31410180     reflection [18]
+                0.01    0.00 3145728/31410180     rayConstruction [14]
+                0.01    0.00 3169934/31410180     ray_color [3]
+                0.01    0.00 4620625/31410180     ray_hit_object [4]
+                0.03    0.00 8442304/31410180     localColor [11]
+                0.03    0.00 8442304/31410180     compute_specular_diffuse [6]
+[13]     6.3    0.10    0.00 31410180         multiply_vector [13]
+-----------------------------------------------
+                0.03    0.05 1048576/1048576     raytracing [1]
+[14]     5.0    0.03    0.05 1048576         rayConstruction [14]
+                0.02    0.00 1048576/10598450     normalize [7]
+                0.01    0.00 3145728/17836094     add_vector [15]
+                0.01    0.00 3145728/31410180     multiply_vector [13]
+                0.00    0.00 1048576/56956357     subtract_vector [10]
+-----------------------------------------------
+                0.00    0.00  621866/17836094     raySphereIntersection [8]
+                0.00    0.00  686738/17836094     ray_color [3]
+                0.00    0.00 1187811/17836094     rayRectangularIntersection [5]
+                0.00    0.00 1241598/17836094     reflection [18]
+                0.01    0.00 3145728/17836094     rayConstruction [14]
+                0.02    0.00 4620625/17836094     ray_hit_object [4]
+                0.02    0.00 6331728/17836094     localColor [11]
+[15]     4.4    0.07    0.00 17836094         add_vector [15]
+-----------------------------------------------
+                0.05    0.00 4221152/4221152     localColor [11]
+[16]     3.1    0.05    0.00 4221152         multiply_vectors [16]
+-----------------------------------------------
+                0.03    0.01 2520791/2520791     ray_color [3]
+[17]     2.5    0.03    0.01 2520791         idx_stack_top [17]
+                0.01    0.00 2520791/2558386     idx_stack_empty [19]
+-----------------------------------------------
+                0.00    0.01 1241598/1241598     ray_color [3]
+[18]     0.8    0.00    0.01 1241598         reflection [18]
+                0.00    0.00 1241598/17836094     add_vector [15]
+                0.00    0.00 1241598/31410180     multiply_vector [13]
+                0.00    0.00 1241598/69646433     dot_product [9]
+-----------------------------------------------
+                0.00    0.00   37595/2558386     idx_stack_pop [24]
+                0.01    0.00 2520791/2558386     idx_stack_top [17]
+[19]     0.6    0.01    0.00 2558386         idx_stack_empty [19]
+-----------------------------------------------
+                0.01    0.00 1241598/1241598     ray_color [3]
+[20]     0.6    0.01    0.00 1241598         protect_color_overflow [20]
+-----------------------------------------------
+                0.00    0.00  113297/3838091     fresnel [23]
+                0.00    0.00 3724794/3838091     ray_color [3]
+[21]     0.3    0.01    0.00 3838091         length [21]
+-----------------------------------------------
+                0.00    0.00 1241598/1241598     ray_color [3]
+[22]     0.3    0.00    0.00 1241598         refraction [22]
+                0.00    0.00 1241598/69646433     dot_product [9]
+                0.00    0.00  226162/31410180     multiply_vector [13]
+                0.00    0.00  113081/56956357     subtract_vector [10]
+-----------------------------------------------
+                0.00    0.00  113297/113297      ray_color [3]
+[23]     0.0    0.00    0.00  113297         fresnel [23]
+                0.00    0.00  226162/69646433     dot_product [9]
+                0.00    0.00  113297/3838091     length [21]
+-----------------------------------------------
+                0.00    0.00   37595/37595       ray_color [3]
+[24]     0.0    0.00    0.00   37595         idx_stack_pop [24]
+                0.00    0.00   37595/2558386     idx_stack_empty [19]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracing [1]
+[25]     0.0    0.00    0.00       1         calculateBasisVectors [25]
+                0.00    0.00       3/10598450     normalize [7]
+                0.00    0.00       2/17821809     cross_product [12]
+-----------------------------------------------
+                0.00    0.00 1204003/1204003     ray_color [3]
+[26]     0.0    0.00    0.00 1204003         idx_stack_push [26]
+-----------------------------------------------
+                0.00    0.00 1048576/1048576     raytracing [1]
+[27]     0.0    0.00    0.00 1048576         idx_stack_init [27]
+-----------------------------------------------
+                0.00    0.00       3/3           main [2]
+[28]     0.0    0.00    0.00       3         append_rectangular [28]
+-----------------------------------------------
+                0.00    0.00       3/3           main [2]
+[29]     0.0    0.00    0.00       3         append_sphere [29]
+-----------------------------------------------
+                0.00    0.00       2/2           main [2]
+[30]     0.0    0.00    0.00       2         append_light [30]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[31]     0.0    0.00    0.00       1         delete_light_list [31]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[32]     0.0    0.00    0.00       1         delete_rectangular_list [32]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[33]     0.0    0.00    0.00       1         delete_sphere_list [33]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[34]     0.0    0.00    0.00       1         diff_in_second [34]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[35]     0.0    0.00    0.00       1         write_to_ppm [35]
+-----------------------------------------------
+
+Index by function name
+
+  [15] add_vector (math-toolkit.h) [23] fresnel (raytracing.c) [14] rayConstruction (raytracing.c)
+  [30] append_light           [19] idx_stack_empty (idx_stack.h) [5] rayRectangularIntersection (raytracing.c)
+  [28] append_rectangular     [27] idx_stack_init (idx_stack.h) [8] raySphereIntersection (raytracing.c)
+  [29] append_sphere          [24] idx_stack_pop (idx_stack.h) [3] ray_color (raytracing.c)
+  [25] calculateBasisVectors (raytracing.c) [26] idx_stack_push (idx_stack.h) [4] ray_hit_object (raytracing.c)
+   [6] compute_specular_diffuse (raytracing.c) [17] idx_stack_top (idx_stack.h) [1] raytracing
+  [12] cross_product (math-toolkit.h) [21] length (math-toolkit.h) [18] reflection (raytracing.c)
+  [31] delete_light_list      [11] localColor (raytracing.c) [22] refraction (raytracing.c)
+  [32] delete_rectangular_list [13] multiply_vector (math-toolkit.h) [10] subtract_vector (math-toolkit.h)
+  [33] delete_sphere_list     [16] multiply_vectors (math-toolkit.h) [35] write_to_ppm (main.c)
+  [34] diff_in_second (main.c) [7] normalize (math-toolkit.h)
+   [9] dot_product (math-toolkit.h) [20] protect_color_overflow (raytracing.c)

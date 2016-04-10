@@ -21,6 +21,11 @@ void raytracing(uint8_t *pixels, color background_color,
                 rectangular_node rectangulars, sphere_node spheres,
                 light_node lights, const viewpoint *view,
                 int width, int height);
+                /*
+raypara_struct *ray_setpara(uint8_t *pixels, double* background_color,
+                            rectangular_node rectangulars, sphere_node spheres,
+                            light_node lights, const viewpoint *view,
+                            int width, int height, int thread_index, int thread_num);*/
 void ray_setpara(raypara_struct *raypara,
                  uint8_t *pixels, double* background_color,
                  rectangular_node rectangulars, sphere_node spheres,
